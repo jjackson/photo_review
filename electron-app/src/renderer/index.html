@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Review Utility</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Configuration Screen -->
+        <div id="config-screen" class="screen">
+            <div class="scrollable-container">
+                <h1>Photo Review Utility</h1>
+                
+                <!-- Reviewer Name -->
+                <div class="form-row">
+                    <label>Reviewer name:</label>
+                    <input type="text" id="reviewer-name" placeholder="Enter your name">
+                </div>
+                
+                <!-- Data Source -->
+                <div class="form-row">
+                    <label>Data Source:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="data-source" value="local" id="source-local">
+                            Local directory
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="data-source" value="api" id="source-api">
+                            CommCareHQ API
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Status Text -->
+                <div id="status-message" class="status-message">
+                    Select a directory and click 'Check Photo Data'
+                </div>
+                
+                <!-- Data Source Controls Container -->
+                <div id="data-source-container" style="display: none;">
+                    <!-- Local Directory Controls -->
+                    <div id="local-controls" style="display: none;">
+                        <div class="form-row">
+                            <label>Local directory:</label>
+                            <input type="text" id="local-directory" readonly>
+                            <button id="browse-local" class="btn">Browse</button>
+                            <button id="check-local-data" class="btn btn-primary">Check Photo Data</button>
+                        </div>
+                    </div>
+                    
+                    <!-- API Controls -->
+                    <div id="api-controls" style="display: none;">
+                        <div class="form-row">
+                            <label>Start Date (MM/DD/YY):</label>
+                            <input type="text" id="date-start" placeholder="01/01/24" value="01/01/24">
+                            <label>End Date (MM/DD/YY):</label>
+                            <input type="text" id="date-end" placeholder="12/31/25">
+                        </div>
+                        
+                        <div class="form-row">
+                            <label>Number of forms to download per domain:</label>
+                            <input type="number" id="api-limit" value="20" min="20" max="1000">
+                            <span class="help-text">Max 1000 forms. Download from HQ exporter if you want more</span>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label>Domain/app pairs file:</label>
+                            <input type="text" id="api-file" readonly>
+                            <button id="browse-api-file" class="btn">Browse</button>
+                            <button id="check-api-data" class="btn btn-primary">Check Photo Data</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Two Column Layout -->
+                    <div class="two-column-layout">
+                        <!-- Left Column - Photo Filter -->
+                        <div class="column">
+                            <h3>Photo filter (multi-select):</h3>
+                            <div id="photo-filter-list" class="filter-list"></div>
+                        </div>
+                        
+                        <!-- Right Column - Configuration -->
+                        <div class="column">
+                            <div class="form-row">
+                                <label>List desired photo buckets (comma-separated):</label>
+                                <input type="text" id="buckets" value="Real, Fake">
+                            </div>
+                            
+                            <div class="form-row">
+                                <label>Percent of pictures to review:</label>
+                                <input type="number" id="percent" value="10.0" min="0.1" max="100" step="0.1">
+                                <span id="percent-count" class="help-text"></span>
+                            </div>
+                            
+                            <div class="form-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="include-known-bad">
+                                    Include known bad photos
+                                </label>
+                            </div>
+                            
+                            <div id="known-bad-controls" style="display: none;">
+                                <div class="form-row">
+                                    <label>Known bad photo directory:</label>
+                                    <input type="text" id="known-bad-dir" readonly>
+                                    <button id="browse-known-bad" class="btn">Browse</button>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <label>Enter number of bad photos to randomly insert:</label>
+                                    <input type="number" id="known-bad-count" min="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Start Review Button -->
+                    <div class="form-row" style="margin-top: 20px;">
+                        <button id="start-review" class="btn btn-primary btn-large">Start Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Review Screen -->
+        <div id="review-screen" class="screen" style="display: none;">
+            <div class="review-header">
+                <div id="progress-text">Photo Review 1/10</div>
+                <button id="back-to-config" class="btn">Back to Config</button>
+            </div>
+            
+            <div class="review-body">
+                <div id="photo-container" class="photo-grid"></div>
+            </div>
+            
+            <div class="review-footer">
+                <div id="bucket-buttons" class="bucket-buttons"></div>
+            </div>
+        </div>
+        
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <div id="loading-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="renderer.js"></script>
+</body>
+</html>

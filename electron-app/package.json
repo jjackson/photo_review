@@ -1,0 +1,23 @@
+{
+  "name": "photo-review-utility-electron",
+  "version": "1.0.0",
+  "description": "Photo Review Utility with Electron frontend and Python backend",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "install-python-deps": "pip install -r src/backend/requirements.txt"
+  },
+  "keywords": [
+    "photo",
+    "review",
+    "commcare",
+    "electron"
+  ],
+  "author": "Dimagi",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0"
+  },
+  "dependencies": {}
+}
